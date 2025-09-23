@@ -196,7 +196,7 @@ const Footer = () => {
               </div>
 
               <p className="text-gray-400 text-sm font-medium">
-                © 2024 CartLite E-commerce. All rights reserved. |
+                © 2025 CartLite E-commerce. All rights reserved. |
                 <a href="/privacy" className="hover:text-purple-400 transition-colors duration-300 ml-1">Privacy Policy</a> |
                 <a href="/terms" className="hover:text-purple-400 transition-colors duration-300 ml-1">Terms of Service</a>
               </p>

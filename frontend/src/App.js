@@ -13,6 +13,8 @@ import Modal from './components/common/Modal';
 import Toast from './components/common/Toast';
 import MobileMenu from './components/common/MobileMenu';
 import NewsletterPopup from './components/common/NewsletterPopup';
+import LoginSignupModal from './components/common/LoginSignupModal';
+import PurchaseNotificationEnhanced from './components/common/PurchaseNotificationEnhanced';
 import Favorites from './components/common/Favorites';
 import SearchResults from './components/common/SearchResults';
 
@@ -64,6 +66,8 @@ function App() {
                 <Toast />
                 <MobileMenu />
                 <NewsletterPopup />
+                <LoginSignupModal />
+                <PurchaseNotificationEnhanced />
               </div>
             </FavoritesProvider>
           </CartProvider>

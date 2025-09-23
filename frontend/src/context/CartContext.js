@@ -164,6 +164,14 @@ export const CartProvider = ({ children }) => {
           quantity
         }
       });
+
+      // Trigger notification event
+      window.dispatchEvent(new CustomEvent('cartItemAdded', {
+        detail: {
+          product: product,
+          quantity: quantity
+        }
+      }));
     }
   };
 

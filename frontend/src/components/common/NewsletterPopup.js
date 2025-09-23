@@ -2,57 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { useUser } from '../../context/UserContext';
 
 const NewsletterPopup = () => {
-  const { showNewsletterPopup, hideNewsletterPopup, showToast } = useUser();
+  const { newsletterPopup, showNewsletterPopup, hideNewsletterPopup, showToast } = useUser();
   const [email, setEmail] = useState('');
   const [timeLeft, setTimeLeft] = useState(105);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const [lastShownTime, setLastShownTime] = useState(0);
   const [particles, setParticles] = useState([]);
 
-  useEffect(() => {
-   
-    const checkAndShowPopup = () => {
-      const currentTime = Date.now();
-      const timeSinceLastShow = currentTime - lastShownTime;
 
-      // Show popup if it's been more than 1 minute 45 seconds since last show
-      if (timeSinceLastShow >= 105000) {
-        setIsVisible(true);
-        showNewsletterPopup();
-        setLastShownTime(currentTime);
-        localStorage.setItem('newsletterLastShown', currentTime.toString());
-        createParticles();
-      }
-    };
-
-    // Get last shown time from localStorage
-    const storedTime = localStorage.getItem('newsletterLastShown');
-    if (storedTime) {
-      setLastShownTime(parseInt(storedTime));
-    }
-
-    // Check immediately on mount
-    checkAndShowPopup();
-
-    // Set up interval to check every 10 seconds
-    const interval = setInterval(checkAndShowPopup, 10000);
-
-    return () => clearInterval(interval);
-  }, [showNewsletterPopup, lastShownTime]);
 
   useEffect(() => {
     let countdownInterval;
-    if (isVisible && timeLeft > 0) {
+    if (newsletterPopup.isOpen && timeLeft > 0) {
       countdownInterval = setInterval(() => {
         setTimeLeft((prev) => prev - 1);
       }, 1000);
     }
     return () => clearInterval(countdownInterval);
-  }, [isVisible, timeLeft]);
+  }, [newsletterPopup.isOpen, timeLeft]);
 
   const handleClose = () => {
-    setIsVisible(false);
     hideNewsletterPopup();
   };
 
@@ -144,7 +113,7 @@ const NewsletterPopup = () => {
     }
   };
 
-  if (!isVisible) return null;
+  if (!newsletterPopup.isOpen) return null;
 
   return (
     <div

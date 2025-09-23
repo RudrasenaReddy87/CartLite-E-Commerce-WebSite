@@ -6,9 +6,10 @@ import { useFavorites } from '../../context/FavoritesContext';
 import CartModal from '../common/CartModal';
 import FavoritesDropdown from './FavoritesDropdown';
 import SearchDropdown from './SearchDropdown';
+import LoginSignupModal from '../common/LoginSignupModal';
 
 const Header = () => {
-  const { toggleMobileMenu, closeMobileMenu, animationReset } = useUser();
+  const { toggleMobileMenu, closeMobileMenu, animationReset, showModal } = useUser();
   const { itemCount, openCheckout } = useCart();
   const { items: favoriteItems } = useFavorites();
   const promotionalTexts = [
@@ -66,7 +67,10 @@ const Header = () => {
             {/* Enhanced Header Actions */}
             <div className="flex items-center gap-3">
               {/* User Account */}
-              <button className="relative text-gray-700 text-2xl p-2 rounded-full hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 group">
+              <button
+                onClick={() => showModal('login')}
+                className="relative text-gray-700 text-2xl p-2 rounded-full hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 group cursor-pointer"
+              >
                 <i className="fas fa-user transition-transform duration-300 group-hover:scale-110"></i>
                 <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
@@ -131,6 +135,9 @@ const Header = () => {
 
       {/* Cart Modal */}
       <CartModal />
+
+      {/* Login/Signup Modal */}
+      <LoginSignupModal />
     </>
   );
 };

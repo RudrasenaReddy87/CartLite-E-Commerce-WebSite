@@ -9,7 +9,7 @@ const AddressForm = () => {
     city: '',
     state: '',
     zipCode: '',
-    country: 'United States'
+    country: 'India'
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,7 +21,7 @@ const AddressForm = () => {
       city: address.city || '',
       state: address.state || '',
       zipCode: address.zipCode || '',
-      country: address.country || 'United States'
+      country: address.country || 'India'
     });
   }, [address]);
 
@@ -57,8 +57,10 @@ const AddressForm = () => {
     }
 
     if (!formData.zipCode.trim()) {
-      newErrors.zipCode = 'ZIP code is required';
-    } else if (!/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
+      newErrors.zipCode = formData.country === 'India' ? 'PIN code is required' : 'ZIP code is required';
+    } else if (formData.country === 'India' && !/^\d{6}$/.test(formData.zipCode)) {
+      newErrors.zipCode = 'Please enter a valid 6-digit PIN code';
+    } else if (formData.country === 'United States' && !/^\d{5}(-\d{4})?$/.test(formData.zipCode)) {
       newErrors.zipCode = 'Please enter a valid ZIP code';
     }
 
@@ -95,6 +97,25 @@ const AddressForm = () => {
     'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
     'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
   ];
+
+  const indianStates = [
+    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat',
+    'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh',
+    'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
+    'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
+    'Uttarakhand', 'West Bengal'
+  ];
+
+  const getStatesForCountry = (country) => {
+    switch (country) {
+      case 'India':
+        return indianStates;
+      case 'United States':
+        return usStates;
+      default:
+        return usStates;
+    }
+  };
 
   return (
     <div className="address-form">
@@ -184,7 +205,7 @@ const AddressForm = () => {
                 disabled={isSubmitting}
               >
                 <option value="">Select State</option>
-                {usStates.map(state => (
+                {getStatesForCountry(formData.country).map(state => (
                   <option key={state} value={state}>{state}</option>
                 ))}
               </select>
@@ -197,7 +218,7 @@ const AddressForm = () => {
         <div className="form-row two-columns">
           <div className="form-group">
             <label htmlFor="zipCode" className="form-label">
-              ZIP Code *
+              {formData.country === 'India' ? 'PIN Code *' : 'ZIP Code *'}
             </label>
             <div className="input-wrapper">
               <input
@@ -207,7 +228,7 @@ const AddressForm = () => {
                 value={formData.zipCode}
                 onChange={handleInputChange}
                 className={`form-input ${errors.zipCode ? 'error' : ''}`}
-                placeholder="12345"
+                placeholder={formData.country === 'India' ? "123456" : "12345"}
                 disabled={isSubmitting}
               />
               <i className="fas fa-mail-bulk input-icon"></i>
@@ -228,6 +249,7 @@ const AddressForm = () => {
                 className={`form-input ${errors.country ? 'error' : ''}`}
                 disabled={isSubmitting}
               >
+                <option value="India">India</option>
                 <option value="United States">United States</option>
                 <option value="Canada">Canada</option>
                 <option value="United Kingdom">United Kingdom</option>

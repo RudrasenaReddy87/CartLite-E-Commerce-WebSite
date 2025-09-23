@@ -77,6 +77,13 @@ export const FavoritesProvider = ({ children }) => {
 
   const addToFavorites = (product) => {
     dispatch({ type: 'ADD_TO_FAVORITES', payload: product });
+
+    // Trigger notification event
+    window.dispatchEvent(new CustomEvent('favoriteItemAdded', {
+      detail: {
+        product: product
+      }
+    }));
   };
 
   const removeFromFavorites = (productId) => {
