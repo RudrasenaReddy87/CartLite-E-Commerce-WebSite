@@ -153,8 +153,7 @@ CartLite-E-Commerce-WebSite/
 
 ## 📱 Deployment
 
-- **Vercel**: Frontend deployment configured via `vercel.json`
-- **Render**: Backend deployment configured via `render.yaml`
+- **netlify**: Frontend & Backend deployment configured via `Netlify`
 - Run `npm run build` in frontend and deploy the build folder
 
 ## 🧪 Testing
