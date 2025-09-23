@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use('/api/products', require('./src/routes/products'));
 app.use('/api/categories', require('./src/routes/categories'));
-app.use('/api/cart', require('./src/routes/cart'));
+app.use('/api/cart', require('./src/routes/cart-fixed'));
 app.use('/api/newsletter', require('./src/routes/newsletter'));
 
 // Health check endpoint

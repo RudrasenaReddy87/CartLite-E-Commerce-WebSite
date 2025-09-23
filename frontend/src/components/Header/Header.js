@@ -2,10 +2,15 @@ import TypingAnimation from '../common/TypingAnimation';
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../../context/UserContext';
 import { useCart } from '../../context/CartContext';
+import { useFavorites } from '../../context/FavoritesContext';
+import CartModal from '../common/CartModal';
+import FavoritesDropdown from './FavoritesDropdown';
+import SearchDropdown from './SearchDropdown';
 
 const Header = () => {
   const { toggleMobileMenu, closeMobileMenu, animationReset } = useUser();
-  const { itemCount } = useCart();
+  const { itemCount, openCheckout } = useCart();
+  const { items: favoriteItems } = useFavorites();
   const promotionalTexts = [
     "Get 20% off",
     "Free shipping",
@@ -14,8 +19,6 @@ const Header = () => {
     "Best deals",
     "Sale 50% off"
   ];
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Handle scroll effect
@@ -27,12 +30,6 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // TODO: Implement search functionality
-    console.log('Search query:', searchQuery);
-  };
 
   return (
     <>
@@ -64,35 +61,7 @@ const Header = () => {
             </div>
 
             {/* Enhanced Search Container */}
-            <div className="flex-1 max-w-lg">
-              <form onSubmit={handleSearch} className="relative">
-                <div className={`relative transition-all duration-300 ${isSearchFocused ? 'scale-105' : ''}`}>
-                  <input
-                    type="search"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onFocus={() => setIsSearchFocused(true)}
-                    onBlur={() => setIsSearchFocused(false)}
-                    placeholder="Search products..."
-                    className={`w-full py-3 px-5 pr-14 text-onyx text-fs-7 border-2 rounded-full transition-all duration-300 bg-gray-50 focus:bg-white ${
-                      isSearchFocused
-                        ? 'border-purple-500 shadow-lg ring-4 ring-purple-100'
-                        : 'border-gray-200 hover:border-purple-300 hover:shadow-md'
-                    }`}
-                  />
-                  <button
-                    type="submit"
-                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-xl p-2 rounded-full transition-all duration-300 ${
-                      isSearchFocused
-                        ? 'text-purple-600 bg-purple-100 scale-110'
-                        : 'text-gray-400 hover:text-purple-600 hover:bg-purple-50'
-                    }`}
-                  >
-                    <i className="fas fa-search transition-transform duration-300 hover:scale-110"></i>
-                  </button>
-                </div>
-              </form>
-            </div>
+            <SearchDropdown />
 
             {/* Enhanced Header Actions */}
             <div className="flex items-center gap-3">
@@ -102,14 +71,14 @@ const Header = () => {
                 <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
 
-              {/* Wishlist */}
-              <button className="relative text-gray-700 text-2xl p-2 rounded-full hover:bg-red-50 hover:text-red-600 transition-all duration-300 group">
-                <i className="fas fa-heart transition-transform duration-300 group-hover:scale-110"></i>
-                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
+              {/* Wishlist Dropdown */}
+              <FavoritesDropdown />
 
               {/* Cart with Enhanced Animation */}
-              <button className="relative text-gray-700 text-2xl p-2 rounded-full hover:bg-green-50 hover:text-green-600 transition-all duration-300 group">
+              <button
+                onClick={openCheckout}
+                className="relative text-gray-700 text-2xl p-2 rounded-full hover:bg-green-50 hover:text-green-600 transition-all duration-300 group cursor-pointer"
+              >
                 <i className="fas fa-shopping-bag transition-transform duration-300 group-hover:scale-110"></i>
                 {itemCount > 0 && (
                   <span className="absolute -top-2 -right-2 bg-gradient-to-r from-green-400 to-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[20px] text-center animate-bounce shadow-lg">
@@ -159,6 +128,9 @@ const Header = () => {
           </ul>
         </div>
       </nav>
+
+      {/* Cart Modal */}
+      <CartModal />
     </>
   );
 };

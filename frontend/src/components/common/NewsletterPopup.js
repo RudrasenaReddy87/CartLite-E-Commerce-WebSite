@@ -4,20 +4,20 @@ import { useUser } from '../../context/UserContext';
 const NewsletterPopup = () => {
   const { showNewsletterPopup, hideNewsletterPopup, showToast } = useUser();
   const [email, setEmail] = useState('');
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(105);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [lastShownTime, setLastShownTime] = useState(0);
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
-    // Check if we should show the popup (every 30 seconds)
+   
     const checkAndShowPopup = () => {
       const currentTime = Date.now();
       const timeSinceLastShow = currentTime - lastShownTime;
 
-      // Show popup if it's been more than 30 seconds since last show
-      if (timeSinceLastShow >= 30000) {
+      // Show popup if it's been more than 1 minute 45 seconds since last show
+      if (timeSinceLastShow >= 105000) {
         setIsVisible(true);
         showNewsletterPopup();
         setLastShownTime(currentTime);
@@ -154,10 +154,10 @@ const NewsletterPopup = () => {
       <div className="popup-content relative bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl w-full max-w-md mx-auto overflow-hidden animate-slideUp">
         {/* Floating Shapes - Smaller */}
         <div className="floating-shapes absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="shape shape-1 absolute w-16 h-16 bg-purple-500 rounded-full opacity-30 animate-float" style={{animationDelay: '0s', animationDuration: '25s'}}></div>
-          <div className="shape shape-2 absolute w-12 h-12 bg-green-500 rounded-full opacity-30 animate-float" style={{animationDelay: '3s', animationDuration: '20s'}}></div>
-          <div className="shape shape-3 absolute w-8 h-8 bg-pink-500 rounded-full opacity-30 animate-float" style={{animationDelay: '6s', animationDuration: '22s'}}></div>
-          <div className="shape shape-4 absolute w-10 h-10 bg-yellow-500 rounded-full opacity-30 animate-float" style={{animationDelay: '2s', animationDuration: '28s'}}></div>
+          <div className="shape shape-1 absolute w-16 h-16 bg-purple-500 rounded-full opacity-30 animate-float" style={{animationDelay: '0s'}}></div>
+          <div className="shape shape-2 absolute w-12 h-12 bg-green-500 rounded-full opacity-30 animate-float" style={{animationDelay: '3s'}}></div>
+          <div className="shape shape-3 absolute w-8 h-8 bg-pink-500 rounded-full opacity-30 animate-float" style={{animationDelay: '6s'}}></div>
+          <div className="shape shape-4 absolute w-10 h-10 bg-yellow-500 rounded-full opacity-30 animate-float" style={{animationDelay: '2s'}}></div>
         </div>
 
         {/* Particles - Reduced */}
@@ -257,7 +257,7 @@ const NewsletterPopup = () => {
         <div className="progress-bar w-full h-1 bg-gray-200 rounded-full mx-4 mb-4 overflow-hidden shadow-inner">
           <div
             className="progress h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full transition-all duration-300"
-            style={{width: `${((30 - timeLeft) / 30) * 100}%`}}
+            style={{width: `${((105 - timeLeft) / 105) * 100}%`}}
           ></div>
         </div>
 

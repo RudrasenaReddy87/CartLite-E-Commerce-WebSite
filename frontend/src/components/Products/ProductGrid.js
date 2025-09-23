@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { useProducts } from '../../context/ProductContext';
 import { useCart } from '../../context/CartContext';
 import { useUser } from '../../context/UserContext';
+import { useFavorites } from '../../context/FavoritesContext';
 
 const ProductGrid = () => {
   const { getFilteredProducts, loading, error } = useProducts();
-  const { addToCart } = useCart();
+  const { addToCart, openCheckout } = useCart();
   const { showToast } = useUser();
+  const { toggleFavorite, isFavorite } = useFavorites();
   const [hoveredProduct, setHoveredProduct] = useState(null);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [animatingHearts, setAnimatingHearts] = useState(new Set());
 
   const products = getFilteredProducts();
 
@@ -19,6 +22,36 @@ const ProductGrid = () => {
 
   const handleQuickView = (product) => {
     setQuickViewProduct(product);
+  };
+
+  const handleToggleFavorite = (product, e) => {
+    e.stopPropagation();
+    const productId = product.id;
+
+    console.log('Heart button clicked for product:', product.name, 'ID:', productId);
+
+    // Add animation
+    setAnimatingHearts(prev => new Set([...prev, productId]));
+
+    // Toggle favorite status
+    toggleFavorite(product);
+
+    // Show toast notification
+    const isFav = isFavorite(productId);
+    console.log('Is favorite after toggle:', isFav);
+    showToast(
+      isFav ? `${product.name} removed from favorites!` : `${product.name} added to favorites!`,
+      isFav ? 'info' : 'success'
+    );
+
+    // Remove animation after delay
+    setTimeout(() => {
+      setAnimatingHearts(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(productId);
+        return newSet;
+      });
+    }, 1000);
   };
 
   if (loading) {
@@ -119,8 +152,26 @@ const ProductGrid = () => {
                   >
                     <i className="fas fa-eye"></i>
                   </button>
-                  <button className="w-12 h-12 bg-white text-gray-700 border border-gray-200 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300 hover:scale-110 shadow-lg">
-                    <i className="fas fa-heart"></i>
+                  <button
+                    onClick={(e) => handleToggleFavorite(product, e)}
+                    className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg relative overflow-hidden ${
+                      isFavorite(product.id)
+                        ? 'bg-red-500 text-white border-red-500'
+                        : 'bg-white text-gray-700 border border-gray-200 hover:bg-red-600 hover:text-white hover:border-red-600'
+                    }`}
+                  >
+                    <i className={`fas fa-heart transition-all duration-300 ${
+                      animatingHearts.has(product.id) ? 'animate-bounce' : ''
+                    }`}></i>
+
+                    {/* Heart burst animation */}
+                    {animatingHearts.has(product.id) && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="absolute w-16 h-16 bg-red-400 rounded-full animate-ping opacity-30"></div>
+                        <div className="absolute w-12 h-12 bg-red-300 rounded-full animate-ping opacity-40 animation-delay-100"></div>
+                        <div className="absolute w-8 h-8 bg-red-200 rounded-full animate-ping opacity-50 animation-delay-200"></div>
+                      </div>
+                    )}
                   </button>
                 </div>
 

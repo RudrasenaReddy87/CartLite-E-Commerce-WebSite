@@ -22,7 +22,10 @@ import { UserProvider } from './context/UserContext';
 
 function App() {
   return (
-    <Router>
+    <Router future={{
+      v7_startTransition: true,
+      v7_relativeSplatPath: true
+    }}>
       <UserProvider>
         <ProductProvider>
           <CartProvider>
