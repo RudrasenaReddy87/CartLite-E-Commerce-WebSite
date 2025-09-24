@@ -211,7 +211,7 @@ export const ProductProvider = ({ children }) => {
   const fetchProducts = async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const response = await fetch('http://localhost:5000/api/products');
+      const response = await fetch('https://cartlite-ecommerce.netlify.app/.netlify/functions/products');
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -226,7 +226,7 @@ export const ProductProvider = ({ children }) => {
   const fetchCategories = async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const response = await fetch('http://localhost:5000/api/categories');
+      const response = await fetch('https://cartlite-ecommerce.netlify.app/.netlify/functions/categories');
       if (!response.ok) {
         throw new Error('Failed to fetch categories');
       }
