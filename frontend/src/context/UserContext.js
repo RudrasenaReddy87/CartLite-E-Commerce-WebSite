@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
 
 const UserContext = createContext();
 
@@ -117,6 +117,20 @@ const initialState = {
 
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initialState);
+
+  // Check if newsletter has been shown before
+  useEffect(() => {
+    const hasSeenNewsletter = localStorage.getItem('hasSeenNewsletter');
+    if (!hasSeenNewsletter) {
+      // Show newsletter popup after a delay
+      const timer = setTimeout(() => {
+        dispatch({ type: 'SHOW_NEWSLETTER_POPUP' });
+        localStorage.setItem('hasSeenNewsletter', 'true');
+      }, 5000); // Show after 5 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const login = (userData) => {
     dispatch({ type: 'SET_USER', payload: userData });

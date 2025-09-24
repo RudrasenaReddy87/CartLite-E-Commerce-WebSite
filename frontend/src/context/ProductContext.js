@@ -211,7 +211,7 @@ export const ProductProvider = ({ children }) => {
   const fetchProducts = async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const response = await fetch('/.netlify/functions/products');
+      const response = await fetch('http://localhost:5000/api/products');
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -226,7 +226,7 @@ export const ProductProvider = ({ children }) => {
   const fetchCategories = async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const response = await fetch('/.netlify/functions/categories');
+      const response = await fetch('http://localhost:5000/api/categories');
       if (!response.ok) {
         throw new Error('Failed to fetch categories');
       }

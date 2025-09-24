@@ -29,13 +29,13 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="w-full lg:w-80 flex-shrink-0">
+    <aside className="w-full lg:w-64 flex-shrink-0">
       <div className="lg:sticky lg:top-8">
         {/* Filter Toggle (Mobile) */}
-        <div className="lg:hidden mb-6">
+        <div className="lg:hidden mb-4">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 hover:from-purple-700 hover:to-blue-700 transition-all duration-300"
+            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:from-purple-700 hover:to-blue-700 transition-all duration-300"
           >
             <i className={`fas fa-filter transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}></i>
             {isOpen ? 'Hide Filters' : 'Show Filters'}
@@ -43,35 +43,35 @@ const Sidebar = () => {
         </div>
 
         {/* Sidebar Content */}
-        <div className={`space-y-6 ${isOpen ? 'block' : 'hidden lg:block'}`}>
+        <div className={`space-y-4 ${isOpen ? 'block' : 'hidden lg:block'}`}>
           {/* Categories Filter */}
-          <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-gray-900 text-xl font-bold uppercase tracking-wider relative">
+          <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-md hover:shadow-lg transition-shadow duration-300">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-gray-900 text-base font-bold uppercase tracking-wider relative">
                 Categories
-                <div className="absolute -bottom-2 left-0 w-16 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
+                <div className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
               </h3>
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full flex items-center justify-center">
-                <i className="fas fa-th-large text-purple-600 text-sm"></i>
+              <div className="w-5 h-5 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full flex items-center justify-center">
+                <i className="fas fa-th-large text-purple-600 text-xs"></i>
               </div>
             </div>
 
-            <ul className="space-y-2">
+            <ul className="space-y-0.5">
               <li>
                 <button
                   onClick={() => handleCategoryFilter('all')}
-                  className={`group flex items-center justify-between w-full text-left p-3 rounded-xl transition-all duration-300 ${
+                  className={`group flex items-center justify-between w-full text-left p-1.5 rounded-md transition-all duration-300 ${
                     activeFilter === 'all'
-                      ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg'
+                      ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-md'
                       : 'text-gray-700 hover:bg-gray-50 hover:text-purple-600'
                   }`}
                 >
-                  <span className="flex items-center gap-3">
-                    <i className="fas fa-th-large text-lg transition-transform duration-300 group-hover:scale-110"></i>
-                    <span className="font-medium">All Categories</span>
+                  <span className="flex items-center gap-1.5">
+                    <i className="fas fa-th-large text-xs transition-transform duration-300 group-hover:scale-110"></i>
+                    <span className="font-medium text-xs">All Categories</span>
                   </span>
                   {activeFilter === 'all' && (
-                    <i className="fas fa-check text-sm animate-fadeIn"></i>
+                    <i className="fas fa-check text-xs animate-fadeIn"></i>
                   )}
                 </button>
               </li>
@@ -79,18 +79,18 @@ const Sidebar = () => {
                 <li key={category.id}>
                   <button
                     onClick={() => handleCategoryFilter(category.name.toLowerCase())}
-                    className={`group flex items-center justify-between w-full text-left p-3 rounded-xl transition-all duration-300 ${
+                    className={`group flex items-center justify-between w-full text-left p-1.5 rounded-md transition-all duration-300 ${
                       activeFilter === category.name.toLowerCase()
-                        ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg'
+                        ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-md'
                         : 'text-gray-700 hover:bg-gray-50 hover:text-purple-600'
                     }`}
                   >
-                    <span className="flex items-center gap-3 capitalize">
-                      <i className="fas fa-tag text-lg transition-transform duration-300 group-hover:scale-110"></i>
-                      <span className="font-medium">{category.name}</span>
+                    <span className="flex items-center gap-1.5 capitalize">
+                      <i className="fas fa-tag text-xs transition-transform duration-300 group-hover:scale-110"></i>
+                    <span className="font-medium text-xs">{category.name}</span>
                     </span>
-                    <div className="flex items-center gap-2">
-                      <span className={`text-xs px-2 py-1 rounded-full transition-all duration-300 ${
+                    <div className="flex items-center gap-1">
+                      <span className={`text-xs px-1 py-0.5 rounded-full transition-all duration-300 ${
                         activeFilter === category.name.toLowerCase()
                           ? 'bg-white/20 text-white'
                           : 'bg-gray-200 text-gray-600'
@@ -98,7 +98,7 @@ const Sidebar = () => {
                         {category.itemCount}
                       </span>
                       {activeFilter === category.name.toLowerCase() && (
-                        <i className="fas fa-check text-sm animate-fadeIn"></i>
+                        <i className="fas fa-check text-xs animate-fadeIn"></i>
                       )}
                     </div>
                   </button>

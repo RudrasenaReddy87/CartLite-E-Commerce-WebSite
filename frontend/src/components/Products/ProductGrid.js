@@ -107,7 +107,7 @@ const ProductGrid = () => {
   return (
     <section className="product-main mb-8">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {products.map((product, index) => (
             <div
               key={product.id}
@@ -121,7 +121,7 @@ const ProductGrid = () => {
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-72 object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
+                  className="w-full h-64 object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
                 />
 
                 {/* Gradient Overlay */}
@@ -237,7 +237,7 @@ const ProductGrid = () => {
                   )}
                   {product.originalPrice && (
                     <span className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-full">
-                      SAVE ${product.originalPrice - product.price}
+                      SAVE ${(product.originalPrice - product.price).toFixed(2)}
                     </span>
                   )}
                 </div>
@@ -252,14 +252,7 @@ const ProductGrid = () => {
                   </div>
                 </div>
 
-                {/* Add to Cart Button (Mobile) */}
-                <button
-                  onClick={() => handleAddToCart(product)}
-                  className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 font-bold py-3 rounded-xl hover:from-purple-600 hover:to-blue-600 hover:text-white transition-all duration-300 transform hover:scale-105 md:hidden flex items-center justify-center gap-2"
-                >
-                  <i className="fas fa-shopping-cart"></i>
-                  Add to Cart
-                </button>
+
               </div>
 
               {/* Hover Glow Effect */}

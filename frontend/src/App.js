@@ -17,6 +17,7 @@ import LoginSignupModal from './components/common/LoginSignupModal';
 import PurchaseNotificationEnhanced from './components/common/PurchaseNotificationEnhanced';
 import Favorites from './components/common/Favorites';
 import SearchResults from './components/common/SearchResults';
+import BackgroundParticles from './components/common/BackgroundParticles';
 
 // Context
 import { CartProvider } from './context/CartContext';
@@ -54,6 +55,7 @@ function App() {
           <CartProvider>
             <FavoritesProvider>
               <div className="App">
+                <BackgroundParticles />
                 <Header />
                 <main>
                   <Routes>
